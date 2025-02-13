@@ -1,0 +1,36 @@
+@baseurl = http://localhost:3000/users
+
+# @name user_create
+POST {{baseurl}}
+Content-Type: application/json
+
+{
+	"name": "Matheus"
+}
+###
+
+# @name user_list
+GET {{baseurl}}
+###
+
+# @name user_findOne
+GET {{baseurl}}/1
+###
+
+# @name user_update
+PUT {{baseurl}}/1
+Content-Type: application/json
+
+{
+	"name": "Matheus"
+}
+###
+
+# @name user_update_partial
+PATCH {{baseurl}}/1
+Content-Type: application/json
+
+{
+	"name": "Matheus"
+}
+###
