@@ -5,7 +5,9 @@ POST {{baseurl}}
 Content-Type: application/json
 
 {
-	"name": "Matheus"
+	"name": "Matheus",
+	"email": "matheus@mail.com",
+	"password": "Password@123"
 }
 ###
 
