@@ -6,7 +6,7 @@ Content-Type: application/json
 
 {
 	"name": "Matheus",
-	"email": "matheus@mail.com",
+	"email": "matheus2@mail.com",
 	"password": "Password@123"
 }
 ###
@@ -35,4 +35,8 @@ Content-Type: application/json
 {
 	"name": "Matheus"
 }
+###
+
+# @name user_delete
+DELETE {{baseurl}}/1
 ###
