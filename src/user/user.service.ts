@@ -22,13 +22,14 @@ export class UserService {
   }
 
   async show(id: number) {
+    await this.exists(id);
     return this.prisma.user.findUnique({
       where: { id }
     });
   }
 
   async update(data: UpdateUserDTO | UpdatePartialUserDTO, id: number) {
-    this.exists(id);
+    await this.exists(id);
 
     return this.prisma.user.update({
       where: { id },
@@ -37,7 +38,7 @@ export class UserService {
   }
 
   async delete(id: number) {
-    this.exists(id);
+    await this.exists(id);
 
     return this.prisma.user.delete({
       where: { id }
@@ -45,7 +46,9 @@ export class UserService {
   }
 
   async exists(id: number) {
-    const user = await this.show(id);
+    const user = await this.prisma.user.count({
+      where: { id }
+    });
     if (!user) {
       throw new NotFoundException(`O usuário ${id} não existe`);
     }
