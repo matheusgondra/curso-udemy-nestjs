@@ -1,4 +1,5 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Put } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Patch, Post, Put } from "@nestjs/common";
+import { ParamId } from "src/decorators/param-id.decorator";
 import { CreateUserDTO } from "./dto/create-user.dto";
 import { UpdatePartialUserDTO } from "./dto/update-partial-user.dto";
 import { UpdateUserDTO } from "./dto/update-user.dto";
@@ -19,22 +20,22 @@ export class UserController {
   }
 
   @Get(":id")
-  async show(@Param("id", ParseIntPipe) id: number) {
+  async show(@ParamId() id: number) {
     return this.userService.show(id);
   }
 
   @Put(":id")
-  async update(@Body() body: UpdateUserDTO, @Param("id", ParseIntPipe) id: number) {
+  async update(@Body() body: UpdateUserDTO, @ParamId() id: number) {
     return this.userService.update(body, id);
   }
 
   @Patch(":id")
-  async updatePartial(@Body() body: UpdatePartialUserDTO, @Param("id", ParseIntPipe) id: number) {
+  async updatePartial(@Body() body: UpdatePartialUserDTO, @ParamId() id: number) {
     return this.userService.update(body, id);
   }
 
   @Delete(":id")
-  async delete(@Param("id", ParseIntPipe) id: number) {
+  async delete(@ParamId() id: number) {
     return this.userService.delete(id);
   }
 }
