@@ -16,7 +16,7 @@ GET {{baseurl}}
 ###
 
 # @name user_findOne
-GET {{baseurl}}/1
+GET {{baseurl}}/2
 ###
 
 # @name user_update
@@ -33,7 +33,7 @@ PATCH {{baseurl}}/1
 Content-Type: application/json
 
 {
-	"name": "Matheus"
+	"name": "Matheus de Gondra"
 }
 ###
 
