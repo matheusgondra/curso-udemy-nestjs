@@ -9,12 +9,7 @@ export class UserService {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(data: CreateUserDTO) {
-    return this.prisma.user.create({
-      data,
-      omit: {
-        password: true
-      }
-    });
+    return this.prisma.user.create({ data });
   }
 
   async list() {

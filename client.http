@@ -1,7 +1,8 @@
-@baseurl = http://localhost:3000/users
+@baseurl = http://localhost:3000
+@access_token = Bearer {{user_login.response.body.accessToken}}
 
 # @name user_create
-POST {{baseurl}}
+POST {{baseurl}}/users
 Content-Type: application/json
 
 {
@@ -12,15 +13,15 @@ Content-Type: application/json
 ###
 
 # @name user_list
-GET {{baseurl}}
+GET {{baseurl}}/users
 ###
 
 # @name user_findOne
-GET {{baseurl}}/2
+GET {{baseurl}}/users/2
 ###
 
 # @name user_update
-PUT {{baseurl}}/1
+PUT {{baseurl}}/users/1
 Content-Type: application/json
 
 {
@@ -29,7 +30,7 @@ Content-Type: application/json
 ###
 
 # @name user_update_partial
-PATCH {{baseurl}}/1
+PATCH {{baseurl}}/users/1
 Content-Type: application/json
 
 {
@@ -38,5 +39,17 @@ Content-Type: application/json
 ###
 
 # @name user_delete
-DELETE {{baseurl}}/1
+DELETE {{baseurl}}/users/1
 ###
+
+# @name user_login
+POST {{baseurl}}/auth/login
+Content-Type: application/json
+
+{
+	"email": "matheus2@mail.com",
+	"password": "Password@123"
+}
+###
+
+# @name user_register

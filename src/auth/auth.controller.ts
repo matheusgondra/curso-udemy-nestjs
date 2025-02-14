@@ -15,12 +15,13 @@ export class AuthController {
 
   @Post("login")
   async login(@Body() { email, password }: AuthLoginDTO) {
-    return this.authService.login(email, password);
+    const accessToken = await this.authService.login(email, password);
+    return { accessToken };
   }
 
   @Post("register")
   async register(@Body() body: AuthRegisterDTO) {
-    return this.userService.create(body);
+    return this.authService.register(body);
   }
 
   @Post("forget")
