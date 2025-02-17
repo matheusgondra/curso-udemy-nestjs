@@ -1,8 +1,9 @@
-@baseurl = http://localhost:3000
+@base_url_user = http://localhost:3000/users
+@base_url_auth = http://localhost:3000/auth
 @access_token = Bearer {{user_login.response.body.accessToken}}
 
 # @name user_create
-POST {{baseurl}}/users
+POST {{base_url_user}}/users
 Content-Type: application/json
 
 {
@@ -13,15 +14,15 @@ Content-Type: application/json
 ###
 
 # @name user_list
-GET {{baseurl}}/users
+GET {{base_url_user}}
 ###
 
 # @name user_findOne
-GET {{baseurl}}/users/2
+GET {{base_url_user}}/2
 ###
 
 # @name user_update
-PUT {{baseurl}}/users/1
+PUT {{base_url_user}}/1
 Content-Type: application/json
 
 {
@@ -30,7 +31,7 @@ Content-Type: application/json
 ###
 
 # @name user_update_partial
-PATCH {{baseurl}}/users/1
+PATCH {{base_url_user}}/1
 Content-Type: application/json
 
 {
@@ -39,11 +40,11 @@ Content-Type: application/json
 ###
 
 # @name user_delete
-DELETE {{baseurl}}/users/1
+DELETE {{base_url_user}}/1
 ###
 
 # @name user_login
-POST {{baseurl}}/auth/login
+POST {{base_url_auth}}/login
 Content-Type: application/json
 
 {
@@ -52,4 +53,10 @@ Content-Type: application/json
 }
 ###
 
-# @name user_register
+# @name user_me
+POST {{base_url_auth}}/me
+Content-Type: application/json
+
+{
+	"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiTWF0aGV1cyIsImVtYWlsIjoibWF0aGV1czJAbWFpbC5jb20iLCJpYXQiOjE3Mzk4MTU2NjUsImV4cCI6MTc0MDQyMDQ2NSwiYXVkIjoidXNlcnMiLCJpc3MiOiJsb2dpbiIsInN1YiI6IjIifQ.RyHKBL889FxSGJ8w6xtX9sUOg7KsAY6kqs0kKsGPimM"
+}
