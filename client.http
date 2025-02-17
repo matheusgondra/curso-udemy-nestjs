@@ -56,7 +56,4 @@ Content-Type: application/json
 # @name user_me
 POST {{base_url_auth}}/me
 Content-Type: application/json
-
-{
-	"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiTWF0aGV1cyIsImVtYWlsIjoibWF0aGV1czJAbWFpbC5jb20iLCJpYXQiOjE3Mzk4MTU2NjUsImV4cCI6MTc0MDQyMDQ2NSwiYXVkIjoidXNlcnMiLCJpc3MiOiJsb2dpbiIsInN1YiI6IjIifQ.RyHKBL889FxSGJ8w6xtX9sUOg7KsAY6kqs0kKsGPimM"
-}
+Authorization: {{access_token}}
