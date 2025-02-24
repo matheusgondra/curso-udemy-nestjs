@@ -1,5 +1,6 @@
 import { Transform } from "class-transformer";
-import { IsDateString, IsEmail, IsOptional, IsString, IsStrongPassword } from "class-validator";
+import { IsDateString, IsEmail, IsEnum, IsOptional, IsString, IsStrongPassword } from "class-validator";
+import { Role } from "src/enums/role.enum";
 
 export class CreateUserDTO {
   @IsString()
@@ -21,4 +22,8 @@ export class CreateUserDTO {
   @IsDateString()
   @IsOptional()
   birthAt: Date;
+
+  @IsEnum(Role)
+  @IsOptional()
+  role: number;
 }

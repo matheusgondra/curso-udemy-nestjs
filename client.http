@@ -18,7 +18,7 @@ GET {{base_url_user}}
 ###
 
 # @name user_findOne
-GET {{base_url_user}}/2
+GET {{base_url_user}}/4
 ###
 
 # @name user_update
