@@ -54,6 +54,5 @@ Content-Type: application/json
 ###
 
 # @name user_me
-POST {{base_url_auth}}/me
-Content-Type: application/json
+GET {{base_url_auth}}/me
 Authorization: {{access_token}}
