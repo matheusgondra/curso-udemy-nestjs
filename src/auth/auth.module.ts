@@ -1,14 +1,19 @@
 import { forwardRef, Module } from "@nestjs/common";
+import { ConfigService } from "@nestjs/config";
 import { JwtModule } from "@nestjs/jwt";
+import { PrismaModule } from "src/prisma/prisma.module";
+import { UserModule } from "src/user/user.module";
 import { AuthController } from "./auth.controller";
 import { AuthService } from "./auth.service";
-import { UserModule } from "src/user/user.module";
-import { PrismaModule } from "src/prisma/prisma.module";
 
 @Module({
   imports: [
-    JwtModule.register({
-      secret: "d0d0e73c-4880-4208-bcbe-f96023830f10"
+    JwtModule.registerAsync({
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => {
+        const secret = configService.get<string>("JWT_SECRET", { infer: true });
+        return { secret };
+      }
     }),
     forwardRef(() => UserModule),
     PrismaModule
