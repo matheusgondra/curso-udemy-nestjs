@@ -8,7 +8,7 @@ Content-Type: application/json
 
 {
 	"name": "Matheus",
-	"email": "matheus2@mail.com",
+	"email": "matheus@mail.com",
 	"password": "Password@123"
 }
 ###
@@ -48,7 +48,17 @@ POST {{base_url_auth}}/login
 Content-Type: application/json
 
 {
-	"email": "matheus2@mail.com",
+	"email": "matheus@mail.com",
+	"password": "Password@123"
+}
+###
+
+POST {{base_url_auth}}/register
+Content-Type: application/json
+
+{
+	"name": "Matheus",
+	"email": "matheus@mail.com",
 	"password": "Password@123"
 }
 ###
