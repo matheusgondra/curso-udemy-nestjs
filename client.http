@@ -77,6 +77,33 @@ Content-Type: multipart/form-data; boundary=MeuLimite
 Content-Disposition: form-data; name="file"; filename="imagem.jpg"
 Content-Type: image/jpeg
 
-< ./images.jpg
+< ./images/images.jpg
 
 --MeuLimite--
+###
+
+# @name multi_upload
+POST {{base_url_auth}}/files-fields
+Authorization: {{access_token}}
+Content-Type: multipart/form-data; boundary=MeuLimite
+
+--MeuLimite
+Content-Disposition: form-data; name="photo"; filename="imagem.jpg"
+Content-Type: image/jpeg
+
+< ./images/images.jpg
+
+--MeuLimite
+Content-Disposition: form-data; name="documents"; filename="205.jpg"
+Content-Type: image/jpeg
+
+< ./images/205.jpg
+
+--MeuLimite
+Content-Disposition: form-data; name="documents"; filename="208.jpg"
+Content-Type: image/jpeg
+
+< ./images/208.jpg
+
+--MeuLimite--
+###
