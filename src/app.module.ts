@@ -9,6 +9,7 @@ import { ConfigModule, ConfigService } from "@nestjs/config";
 import { MailerModule } from "@nestjs-modules/mailer";
 import { PugAdapter } from "@nestjs-modules/mailer/dist/adapters/pug.adapter";
 import { TypeOrmModule } from "@nestjs/typeorm";
+import { UserEntity } from "./user/entity/user.entity";
 
 @Module({
   imports: [
@@ -52,7 +53,7 @@ import { TypeOrmModule } from "@nestjs/typeorm";
         username: config.get<string>("DB_USERNAME"),
         password: config.get<string>("DB_PASSWORD"),
         database: config.get<string>("DB_DATABASE"),
-        entities: [],
+        entities: [UserEntity],
         synchronize: config.get<string>("ENV") === "development" ? true : false
       })
     })
