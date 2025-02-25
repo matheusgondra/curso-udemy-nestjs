@@ -50,7 +50,7 @@ import { UserEntity } from "./user/entity/user.entity";
         type: "postgres",
         host: config.get<string>("DB_HOST"),
         port: Number(config.get<string>("DB_PORT")),
-        username: config.get<string>("DB_USERNAME"),
+        username: config.get<string>("DB_USER"),
         password: config.get<string>("DB_PASSWORD"),
         database: config.get<string>("DB_DATABASE"),
         entities: [UserEntity],

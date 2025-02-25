@@ -1,19 +1,25 @@
+import { MailerService } from "@nestjs-modules/mailer";
 import { BadRequestException, Injectable, UnauthorizedException } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
-import { AuthRegisterDTO } from "./dto/auth-register.dto";
+import { InjectRepository } from "@nestjs/typeorm";
+import { compare, genSalt, hash } from "bcryptjs";
+import { UserEntity } from "src/user/entity/user.entity";
 import { UserService } from "src/user/user.service";
-import { compare, genSalt, hash } from "bcrypt";
-import { MailerService } from "@nestjs-modules/mailer";
+import { Repository } from "typeorm";
+import { AuthRegisterDTO } from "./dto/auth-register.dto";
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly jwtService: JwtService,
     private readonly userService: UserService,
-    private readonly mailerService: MailerService
+    private readonly mailerService: MailerService,
+
+    @InjectRepository(UserEntity)
+    private readonly userRepository: Repository<UserEntity>
   ) {}
 
-  createToken(user: any) {
+  createToken(user: UserEntity) {
     return this.jwtService.sign(
       {
         name: user.name,
@@ -51,7 +57,7 @@ export class AuthService {
   }
 
   async login(email: string, password: string) {
-    const user = await this.prisma.user.findUnique({ where: { email } });
+    const user = await this.userRepository.findOneBy({ email });
     if (!user) {
       throw new UnauthorizedException("Email ou senha incorretos");
     }
@@ -65,7 +71,6 @@ export class AuthService {
   }
 
   async reset(password: string, token: string) {
-    // validar token
     try {
       const { id } = this.jwtService.verify(token, {
         issuer: "forget",
@@ -79,14 +84,16 @@ export class AuthService {
       const salt = await genSalt(12);
       const hashedPassword = await hash(password, salt);
 
-      return this.createToken({});
+      await this.userRepository.update(id, { password: hashedPassword });
+
+      const user = await this.userService.show(id);
+
+      return this.createToken(user);
     } catch (error) {}
   }
 
   async forget(email: string) {
-    const user = await this.prisma.user.findUnique({
-      where: { email }
-    });
+    const user = await this.userRepository.findOneBy({ email });
     if (!user) {
       throw new UnauthorizedException("Email incorreto");
     }
