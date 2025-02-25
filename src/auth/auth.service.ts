@@ -4,14 +4,16 @@ import { User } from "@prisma/client";
 import { PrismaService } from "src/prisma/prisma.service";
 import { AuthRegisterDTO } from "./dto/auth-register.dto";
 import { UserService } from "src/user/user.service";
-import { compare } from "bcrypt";
+import { compare, genSalt, hash } from "bcrypt";
+import { MailerService } from "@nestjs-modules/mailer";
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly jwtService: JwtService,
     private readonly prisma: PrismaService,
-    private readonly userService: UserService
+    private readonly userService: UserService,
+    private readonly mailerService: MailerService
   ) {}
 
   createToken(user: User) {
@@ -67,14 +69,28 @@ export class AuthService {
 
   async reset(password: string, token: string) {
     // validar token
-    const id = 0;
+    try {
+      const { id } = this.jwtService.verify(token, {
+        issuer: "forget",
+        audience: "users"
+      });
 
-    const user = await this.prisma.user.update({
-      where: { id },
-      data: { password }
-    });
+      if (isNaN(Number(id))) {
+        throw new BadRequestException("Token inválido");
+      }
 
-    return this.createToken(user);
+      const salt = await genSalt(12);
+      const hashedPassword = await hash(password, salt);
+
+      const user = await this.prisma.user.update({
+        where: { id },
+        data: {
+          password: hashedPassword
+        }
+      });
+
+      return this.createToken(user);
+    } catch (error) {}
   }
 
   async forget(email: string) {
@@ -84,6 +100,28 @@ export class AuthService {
     if (!user) {
       throw new UnauthorizedException("Email incorreto");
     }
+
+    const token = this.jwtService.sign(
+      {
+        id: user.id
+      },
+      {
+        expiresIn: "30 minutes",
+        subject: String(user.id),
+        issuer: "forget",
+        audience: "users"
+      }
+    );
+
+    await this.mailerService.sendMail({
+      subject: "Recuperação de senha",
+      to: email,
+      template: "forget",
+      context: {
+        name: user.name,
+        link: token
+      }
+    });
 
     return true;
   }

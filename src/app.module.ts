@@ -23,9 +23,16 @@ import { PugAdapter } from "@nestjs-modules/mailer/dist/adapters/pug.adapter";
       isGlobal: true
     }),
     MailerModule.forRoot({
-      transport: "smtps://josue4@ethereal.email:Xh7tS9S3DT859jveV1@smtp.ethereal.email",
+      transport: {
+        host: "smtp.ethereal.email",
+        port: 587,
+        auth: {
+          user: "josue4@ethereal.email",
+          pass: "Xh7tS9S3DT859jveV1"
+        }
+      },
       defaults: {
-        from: '"nest-modules" <modules@nestjs.com>'
+        from: `Gondra <matheus@mail.com>`
       },
       template: {
         dir: __dirname + "/templates",
