@@ -5,9 +5,10 @@ import { AppService } from "./app.service";
 import { AuthModule } from "./auth/auth.module";
 import { UserModule } from "./user/user.module";
 import { APP_GUARD } from "@nestjs/core";
-import { ConfigModule } from "@nestjs/config";
+import { ConfigModule, ConfigService } from "@nestjs/config";
 import { MailerModule } from "@nestjs-modules/mailer";
 import { PugAdapter } from "@nestjs-modules/mailer/dist/adapters/pug.adapter";
+import { TypeOrmModule } from "@nestjs/typeorm";
 
 @Module({
   imports: [
@@ -41,6 +42,19 @@ import { PugAdapter } from "@nestjs-modules/mailer/dist/adapters/pug.adapter";
           strict: true
         }
       }
+    }),
+    TypeOrmModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: async (config: ConfigService) => ({
+        type: "postgres",
+        host: config.get<string>("DB_HOST"),
+        port: Number(config.get<string>("DB_PORT")),
+        username: config.get<string>("DB_USERNAME"),
+        password: config.get<string>("DB_PASSWORD"),
+        database: config.get<string>("DB_DATABASE"),
+        entities: [],
+        synchronize: config.get<string>("ENV") === "development" ? true : false
+      })
     })
   ],
   controllers: [AppController],
